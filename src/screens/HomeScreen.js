@@ -15,7 +15,7 @@ const HomeScreen = () => {
   useEffect(() => {
     dispatch(listProducts());
     dispatch(existedCartItem());
-  }, []);
+  }, [dispatch]);
 
  
   return (

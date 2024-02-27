@@ -33,16 +33,7 @@ const CartScreen = ({ history }) => {
       initialQuantities[item._id] = item.addedQtyInCart;
     });
   }, [cartItems]);
-  const checkOutHandler = () => {
-  
-    const token = localStorage.getItem("token");
-    if(token){
-      navigate("/shipping")
-    }
-    else {
-      navigate("/login")
-    }
-  };
+
   const deleteFromCart = async (id) => {
     try {
       const response = await axios.put(
@@ -142,7 +133,7 @@ const CartScreen = ({ history }) => {
                 type="button"
                 className="btn-block"
                 disabled={cartItems.length === 0}
-                onClick={checkOutHandler}
+               
               >
                 Proceed to Check Out
               </Button>

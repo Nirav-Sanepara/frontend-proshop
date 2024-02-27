@@ -5,13 +5,14 @@ import { useState } from "react";
 import { useSelector, useDispatch, shallowEqual } from "react-redux";
 import { listProductRemove } from "../actions/productOperationActions";
 import UpdateModal from "./UpdateModal";
+import FilterOffCanvas from "../componant/FilterOffCanvas"
 
 export default function AllProductForm() {
   const dispatch = useDispatch();
 
-  const item = useSelector((state) => {
-    return state.product.productList;
-  }, shallowEqual);
+  const item = useSelector((state) => 
+   state.product.productList
+  );
 
   const { products } = item;
 
@@ -26,8 +27,32 @@ export default function AllProductForm() {
   const [selectedProduct, setSelectedProduct] = useState(null);
 
   return (
-    
+
     <div>
+      <Row>
+        <Col>
+        <Row className="align-items-center ">
+          <Col md={4}>
+            <FilterOffCanvas />
+          </Col>
+          <Col md={4}>
+            <h1>All Products</h1>
+          </Col>
+          <Col md={4}>
+            <Button
+              type="button"
+              variant="dark"
+              className="m-2 border border-light float-right"
+              onClick={() => {
+                handleShow();
+                setSelectedProduct({});
+              }}
+            >
+              Add Product
+            </Button>
+          </Col>
+        </Row>
+
       <ListGroup variant="flush">
         {products?.map((entity) => (
           <ListGroup.Item key={entity._id}>
@@ -67,6 +92,8 @@ export default function AllProductForm() {
           </ListGroup.Item>
         ))}
       </ListGroup>
+        </Col>
+      </Row>
       <UpdateModal
         show={showModal}
         handleClose={handleClose}

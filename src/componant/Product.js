@@ -40,7 +40,7 @@ const Product = ({ product }) => {
           
         }
       );
-      dispatch(addToCart(...response?.data?.product));
+      dispatch(addToCart(response?.data?.product));
       navigate(`/cart`);
     } catch (error) {
       console.log(" error ", error);
