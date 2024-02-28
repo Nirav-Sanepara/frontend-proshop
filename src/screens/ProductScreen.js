@@ -42,9 +42,10 @@ const ProductScreen = ({ match }) => {
           addedInCart: true,
           addedQtyInCart: qty,
         }
-      );
-      dispatch(addToCart(response?.data?.product));
+        );
+        {console.log("fdhf",response)}
       navigate(`/cart`);
+      dispatch(addToCart(response?.data?.product));
     } catch (error) {
       console.log("::::::::: error ", error);
     }
