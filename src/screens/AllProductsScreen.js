@@ -28,7 +28,6 @@ const AllProductsScreen = () => {
   const handleClose = () => setShowModal(false);
 
   const [selectedProduct, setSelectedProduct] = useState(null);
-  console.log("1");
   return (
     <Row>
       <Col>

@@ -60,7 +60,13 @@ const UpdateModal = ({ show, handleClose, product, addBtn, editBtn }) => {
         try {
           const { data } = await axios.post(
             `${process.env.REACT_APP_API_BASE_PATH}/api/products/add`,
-            obj
+            obj,
+            {
+              headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${localStorage.getItem("token")}`,
+              },
+            }
           );
           dispatch(addProductFromList(data));
         } catch (error) {
@@ -209,7 +215,7 @@ const UpdateModal = ({ show, handleClose, product, addBtn, editBtn }) => {
           <div className="form-group">
             <label htmlFor="productCountInStock">Count in Stock:</label>
             <input
-              type="number"
+              type="text"
               min="0"
               id="productCountInStock"
               name="productCountInStock"

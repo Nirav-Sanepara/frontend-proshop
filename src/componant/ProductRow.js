@@ -38,12 +38,14 @@ const ProductRow = ({ product }) => {
     <Row>
       <Col md={1}>
         <Image src={product.image} alt={product.name} fluid rounded />
+        {console.log("image",product.image)}
       </Col>
       <Col md={7} className="p-3">
         <Link to={`/product/${product.product}`}>{product.name}</Link>
       </Col>
       <Col md={2} className="p-3">
         {product.price}
+        {console.log("price",product.price)}
       </Col>
       <Col md={1}>
         <Button
