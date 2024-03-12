@@ -14,7 +14,7 @@ const Product = ({ product }) => {
   const [hovered, setHovered] = useState(false);
   const userLogin = useSelector((state) => state.user.userDetails);
   const { userInfo } = userLogin;
-
+  console.log("object", userInfo);
   const handleMouseEnter = () => {
     setHovered(true);
   };
@@ -128,17 +128,13 @@ const Product = ({ product }) => {
           {product.rating} from {product.numReviews} review
         </Card.Text>
         <Card.Text as="div">
-          <Rating
-            value={product.rating}
-            
-          />
+          <Rating value={product.rating} />
         </Card.Text>
-        { product.countInStock > 0? (
+        {product.countInStock > 0 ? (
           <Card.Text as="h3">${product.price}</Card.Text>
         ) : (
           <Card.Text as="h3">Out Of Stock </Card.Text>
         )}
-       
       </Card.Body>
     </Card>
   );

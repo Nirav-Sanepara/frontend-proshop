@@ -3,9 +3,9 @@ import { Button, Row, Modal, Form } from "react-bootstrap";
 import "./reviewModal.scss";
 import axios from "axios";
 import { useSelector } from "react-redux";
+import FeedbackIcons from "./FeedbackIcons";
 
-export default function ReviewModal({ show, onHide, modalContent }) {
-  const [showReviewModal, setShowReviewModal] = useState(false);
+export default function ReviewModal({ show, onHide, modalContent, handleFeedbackClick, feedbackIcons, rating }) {
   const [review, setReview] = useState("");
 
   const userLogin = useSelector((state) => state.user.userDetails);
@@ -13,13 +13,13 @@ export default function ReviewModal({ show, onHide, modalContent }) {
 
   const handleReviewSubmit = async () => {
     console.log("Submitting review:", review);
-    // setShowReviewModal(true);
 
     try {
       const { data } = await axios.patch(
         `${process.env.REACT_APP_API_BASE_PATH}/api/products/addReview/${modalContent.productId}`,
         {
           name: userInfo.name,
+          rating: rating,
           comment: review,
         },
         {
@@ -50,6 +50,11 @@ export default function ReviewModal({ show, onHide, modalContent }) {
             onChange={(e) => setReview(e.target.value)}
           />
         </Form.Group>
+        <FeedbackIcons
+          feedbackIcons={feedbackIcons}
+          handleFeedbackClick={handleFeedbackClick}
+          modalContent={modalContent}
+        />
       </Modal.Body>
       <Modal.Footer>
         <Button variant="secondary" onClick={onHide}>

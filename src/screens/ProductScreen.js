@@ -37,6 +37,13 @@ const ProductScreen = ({ match }) => {
   }, [match]);
 
   const addCartHandler = async (userId, productId, quantity, stock) => {
+    console.log(
+      "userId, productId, quantity, stock",
+      userId,
+      productId,
+      quantity,
+      stock
+    );
     try {
       const token = localStorage.getItem("token");
       if (stock >= quantity) {
@@ -180,22 +187,21 @@ const ProductScreen = ({ match }) => {
                   <ListGroup variant="flush">
                     {product.reviews.map((review, index) => (
                       <ListGroup.Item key={index}>
-                      <Row>
-                      <Col md={2} className="ps-5">
-                        <img
-                          src={Avatar1}
-                          className="rounded-circle"
-                          alt=""
-                          style={{ width: "50px", height: "50px" }} // Adjust the width and height as needed
-                        />
-                      </Col>
-                      <Col>
-                        {review.name}
-                        <Rating className="ps-5" value={product.rating} />
-                        {review.comment}
-                      </Col>
-                      </Row>
-                     
+                        <Row>
+                          <Col md={2} className="ps-5">
+                            <img
+                              src={Avatar1}
+                              className="rounded-circle"
+                              alt=""
+                              style={{ width: "50px", height: "50px" }} // Adjust the width and height as needed
+                            />
+                          </Col>
+                          <Col>
+                            {review.name}
+                            <Rating className="ps-5" value={review?.rating} />
+                            {review.comment}
+                          </Col>
+                        </Row>
                       </ListGroup.Item>
                     ))}
                   </ListGroup>

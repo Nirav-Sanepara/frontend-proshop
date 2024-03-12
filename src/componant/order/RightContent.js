@@ -72,19 +72,9 @@ const RightContent = ({
           </div>
         </Col>
       </Row>
+
       <hr />
-      <Row className="px-3">
-        <span style={{ fontSize: "0.7rem" }}>
-          How was your delivery experience?
-        </span>
-        <FeedbackIcons
-          feedbackIcons={feedbackIcons}
-          handleFeedbackClick={handleFeedbackClick}
-          modalContent={modalContent}
-        />
-      </Row>
-      <hr />
-      <Row className="px-3">
+      <Row className="px-3 pt-3">
         <span className="lead" style={{ fontSize: "0.9rem" }}>
           Tracking History
         </span>

@@ -1,37 +1,19 @@
-// FeedbackIcons.js
-import React from "react";
-import MoodBadIcon from "@mui/icons-material/MoodBad";
-import SentimentDissatisfiedIcon from "@mui/icons-material/SentimentDissatisfied";
-import SentimentSatisfiedIcon from "@mui/icons-material/SentimentSatisfied";
-import SentimentSatisfiedAltIcon from "@mui/icons-material/SentimentSatisfiedAlt";
-import SentimentVerySatisfiedIcon from "@mui/icons-material/SentimentVerySatisfied";
+import React, { useState } from "react";
 import { Col, Row } from "react-bootstrap";
-import toast from "react-hot-toast";
-import axios from "axios";
+import {
+  MoodBad as MoodBadIcon,
+  SentimentDissatisfied as SentimentDissatisfiedIcon,
+  SentimentSatisfied as SentimentSatisfiedIcon,
+  SentimentSatisfiedAlt as SentimentSatisfiedAltIcon,
+  SentimentVerySatisfied as SentimentVerySatisfiedIcon,
+} from "@mui/icons-material";
 
-const FeedbackIcons = ({ feedbackIcons, handleFeedbackClick, modalContent }) => {
-  console.log(modalContent)
-  const rating = async (number) => {
-    try {
-      toast("Product Rated");
-      const token = localStorage.getItem("token");
+const FeedbackIcons = ({ handleFeedbackClick }) => {
+  const [rating, setRating] = useState(null);
 
-      const response = await axios.patch(
-        `${process.env.REACT_APP_API_BASE_PATH}/api/products/rating/${modalContent.productId}`,
-        {
-          rating: number,
-        },
-        {
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
-    } catch (error) {
-      toast("Product did not rated ");
-      console.log(error, " error ");
-    }
+  const handleRatingClick = (number) => {
+    setRating(number);
+    handleFeedbackClick(number);
   };
 
   return (
@@ -40,28 +22,18 @@ const FeedbackIcons = ({ feedbackIcons, handleFeedbackClick, modalContent }) => 
         <Col md={1}>
           <MoodBadIcon
             fontSize="large"
-            style={{ fill: feedbackIcons.bad ? "black" : "grey" }}
-            onClick={() => {
-              handleFeedbackClick("bad");
-              rating(1);
-            }}
+            style={{ fill: rating === 1 ? "black" : "grey" }}
+            onClick={() => handleRatingClick(1)}
           />
           <span className="lead ps-2" style={{ fontSize: "0.7rem" }}>
             Bad
           </span>
         </Col>
-
         <Col md={1}>
           <SentimentDissatisfiedIcon
             fontSize="large"
-            style={{
-              fill: feedbackIcons.dissatisfied ? "black" : "grey",
-            }}
-            onClick={() =>{
-              handleFeedbackClick("dissatisfied")
-              rating(2);
-            } 
-          }
+            style={{ fill: rating === 2 ? "black" : "grey" }}
+            onClick={() => handleRatingClick(2)}
           />
           <span className="lead ps-2" style={{ fontSize: "0.7rem" }}>
             Ok
@@ -70,13 +42,8 @@ const FeedbackIcons = ({ feedbackIcons, handleFeedbackClick, modalContent }) => 
         <Col md={1}>
           <SentimentSatisfiedIcon
             fontSize="large"
-            style={{
-              fill: feedbackIcons.satisfied ? "black" : "grey",
-            }}
-            onClick={() => {
-              handleFeedbackClick("satisfied")
-              rating(3);
-            }}
+            style={{ fill: rating === 3 ? "black" : "grey" }}
+            onClick={() => handleRatingClick(3)}
           />
           <span className="lead ps-1" style={{ fontSize: "0.7rem" }}>
             Avg
@@ -85,13 +52,8 @@ const FeedbackIcons = ({ feedbackIcons, handleFeedbackClick, modalContent }) => 
         <Col md={1}>
           <SentimentSatisfiedAltIcon
             fontSize="large"
-            style={{
-              fill: feedbackIcons.satisfiedAlt ? "black" : "grey",
-            }}
-            onClick={() =>{
-              handleFeedbackClick("satisfiedAlt")
-              rating(4);
-            }}
+            style={{ fill: rating === 4 ? "black" : "grey" }}
+            onClick={() => handleRatingClick(4)}
           />
           <span className="lead ps-1" style={{ fontSize: "0.7rem" }}>
             Good
@@ -100,13 +62,8 @@ const FeedbackIcons = ({ feedbackIcons, handleFeedbackClick, modalContent }) => 
         <Col md={1}>
           <SentimentVerySatisfiedIcon
             fontSize="large"
-            style={{
-              fill: feedbackIcons.verySatisfied ? "black" : "grey",
-            }}
-            onClick={() => {
-              handleFeedbackClick("verySatisfied")
-              rating(5);
-            }}
+            style={{ fill: rating === 5 ? "black" : "grey" }}
+            onClick={() => handleRatingClick(5)}
           />
           <span className="lead ps-1" style={{ fontSize: "0.7rem" }}>
             Best

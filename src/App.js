@@ -42,7 +42,7 @@ import MainHomeScreen from "./screens/MainHomeScreen";
 
 function App() {
   return (
-   <ThemeProvider>
+    <ThemeProvider>
       <Router>
         <Header />
         <Toaster position="top-right" />
@@ -60,22 +60,25 @@ function App() {
               <Route path="/all-products" element={<AllProductsScreen />} />
               <Route path="/cart/:id?" element={<CartScreen />} />
               <Route exact path="/" element={<HomeScreen />} />
-              <Route path="/merchant" element={<MerchantInfo/>}/>
-              <Route path="admin" element={<OrganizationContent/>}/>
-              <Route path="/allproductScreen" element={<AllProductsScreen/>}/>
-              <Route path="/favouriteScreen" element={<FavouriteProductScreen/>}/>
-              <Route path="/dashboard" element={<DashboardScreen/>}/>
-              <Route path="/contact" element={<ContactScreen/>}/>
-              <Route path="/pdf" element={<PdfDownload/>}/>
-              <Route path="/upi" element={<UpiFaqs/>}/>
-              <Route path="/card" element={<Cardfaqs/>}/>
-              <Route path="/camera" element={<CameraScreen />}/>
-              <Route path="/smartphone" element={<SmartPhoneScreen />}/>
-              <Route path="/mainscreen" element={<MainHomeScreen/>}/>
-           </Routes>  
-           </Container>
-           </main>
-             {/* <Routes>
+              <Route path="/merchant" element={<MerchantInfo />} />
+              <Route path="admin" element={<OrganizationContent />} />
+              <Route path="/allproductScreen" element={<AllProductsScreen />} />
+              <Route
+                path="/favouriteScreen"
+                element={<FavouriteProductScreen />}
+              />
+              <Route path="/dashboard" element={<DashboardScreen />} />
+              <Route path="/contact" element={<ContactScreen />} />
+              <Route path="/pdf" element={<PdfDownload />} />
+              <Route path="/upi" element={<UpiFaqs />} />
+              <Route path="/card" element={<Cardfaqs />} />
+              <Route path="/camera" element={<CameraScreen />} />
+              <Route path="/smartphone" element={<SmartPhoneScreen />} />
+              <Route path="/mainscreen" element={<MainHomeScreen />} />
+            </Routes>
+          </Container>
+        </main>
+        {/* <Routes>
                {ROUTES.map(({Component, isPrivate, path, roles})=>(
                 <Route exact
                    path={path}
@@ -98,16 +101,11 @@ function App() {
           </Container>
         </main>
         {/* <OrganizationContent/> */}
-        
+
         <Footer />
       </Router>
-     
-      </ThemeProvider>
-   
+    </ThemeProvider>
   );
 }
 
 export default App;
-
-
-
