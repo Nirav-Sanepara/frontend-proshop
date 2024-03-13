@@ -105,17 +105,17 @@ const PlaceOrderScreen = ({ history }) => {
 
         deleteFromCart(item?.product?._id);
 
-        // const data = await axios.patch(
-        //   `${process.env.REACT_APP_API_BASE_PATH}/api/products/updateCount/${item?.product?._id}`,
+        const data = await axios.patch(
+          `${process.env.REACT_APP_API_BASE_PATH}/api/products/updateCount/${item?.product?._id}`,
 
-        //   { quantity: item?.quantity },
-        //   {
-        //     headers: {
-        //       "Content-Type": "application/json",
-        //       Authorization: `Bearer ${token}`,
-        //     },
-        //   }
-        // );
+          { quantity: item?.quantity },
+          {
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
       });
 
       toast(" Products ordered successfully ");
