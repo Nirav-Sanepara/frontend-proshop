@@ -8,12 +8,12 @@ import {
   SentimentVerySatisfied as SentimentVerySatisfiedIcon,
 } from "@mui/icons-material";
 
-const FeedbackIcons = ({ handleFeedbackClick }) => {
+const FeedbackIcons = (props) => {
   const [rating, setRating] = useState(null);
 
   const handleRatingClick = (number) => {
     setRating(number);
-    handleFeedbackClick(number);
+    props.handleFeedbackClick(number)
   };
 
   return (

@@ -187,6 +187,7 @@ const ProductScreen = ({ match }) => {
                   <ListGroup variant="flush">
                     {product.reviews.map((review, index) => (
                       <ListGroup.Item key={index}>
+                      
                         <Row>
                           <Col md={2} className="ps-5">
                             <img
