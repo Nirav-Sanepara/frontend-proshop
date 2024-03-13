@@ -44,7 +44,7 @@ const Product = ({ product }) => {
       dispatch(addToCart(response?.data?.product));
       toast.success("Product added to cart");
     } catch (error) {
-      toast(" Product out of stock ");
+      
       console.log("::::::::: error ", error);
     }
   };

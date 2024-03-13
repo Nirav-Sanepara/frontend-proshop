@@ -44,7 +44,7 @@ const cartSlice = createSlice({
       const item = action.payload;
       console.log(item , ' to put condition ')
       const existingItemIndex = state.cartList.cartItems.findIndex(
-        (x) => x.product._id === item._id
+        (x) => x.product._id === item?.product?._id
       );
     
       if (existingItemIndex !== -1) {

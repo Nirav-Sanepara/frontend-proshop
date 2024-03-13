@@ -6,8 +6,6 @@ import TrackingHistory from "./TrackingHistory";
 
 const RightContent = ({
   modalContent,
-  handleFeedbackClick,
-  feedbackIcons,
   activeStep,
   delivery,
   day,
@@ -73,6 +71,11 @@ const RightContent = ({
         </Col>
       </Row>
 
+      <hr />
+      <Row>
+      <span> How was your experience ?</span>
+      <FeedbackIcons/>
+      </Row>
       <hr />
       <Row className="px-3 pt-3">
         <span className="lead" style={{ fontSize: "0.9rem" }}>

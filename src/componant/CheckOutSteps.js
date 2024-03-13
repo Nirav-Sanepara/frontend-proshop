@@ -5,7 +5,6 @@ import { loggedUserDetails } from "../Slices/userSlice";
 import Stepper from "@mui/material/Stepper";
 import Step from "@mui/material/Step";
 import StepLabel from "@mui/material/StepLabel";
-import StepContent from "@mui/material/StepContent";
 
 const CheckOutSteps = ({ step1, step2, step3, step4 }) => {
   const dispatch = useDispatch();
@@ -18,30 +17,31 @@ const CheckOutSteps = ({ step1, step2, step3, step4 }) => {
   }, [dispatch]);
 
   useEffect(() => {
-    if (step1) {
+    if (step2) {
       setActiveStep(0);
     }
-    if (step2) {
-      setActiveStep(1);
-    }
     if (step3) {
-      setActiveStep(2);
+      setActiveStep(1);
     }
   }, []);
 
   return (
     <Stepper orientation="horizontal" activeStep={activeStep}>
-      <Step key={0} >
-        <StepLabel className="pe-0">
-            {userInfo && Object.keys(userInfo).length > 0 && (
-              <Nav.Item className="me-0">
-                {step1 ? (
-                  <Nav.Link href="/shipping" className="me-0">Shipping</Nav.Link>
-                ) : (
-                  <Nav.Link href="/login" className="me-0">Sign In</Nav.Link>
-                )}
-              </Nav.Item>
-            )}
+      <Step key={0}  sx={{color:"black"}}>
+        <StepLabel>
+          {userInfo && Object.keys(userInfo).length > 0 && (
+            <Nav.Item className="me-0">
+              {step1 ? (
+                <Nav.Link href="/shipping" className="me-0">
+                  Shipping
+                </Nav.Link>
+              ) : (
+                <Nav.Link href="/login" className="me-0">
+                  Sign In
+                </Nav.Link>
+              )}
+            </Nav.Item>
+          )}
         </StepLabel>
       </Step>
       <Step key={1}>
@@ -58,7 +58,7 @@ const CheckOutSteps = ({ step1, step2, step3, step4 }) => {
                   Payment
                 </Nav.Link>
               ) : (
-                <Nav.Link to="/payment" disabled className="me-0" >
+                <Nav.Link to="/payment" disabled className="me-0">
                   Payment
                 </Nav.Link>
               )}
@@ -68,10 +68,12 @@ const CheckOutSteps = ({ step1, step2, step3, step4 }) => {
       </Step>
       <Step key={2}>
         <StepLabel>
-          <Nav >
+          <Nav>
             <Nav.Item className="me-0">
               {step3 ? (
-                <Nav.Link href="/placeorder" className="me-0">Place Order</Nav.Link>
+                <Nav.Link href="/placeorder" className="me-0">
+                  Place Order
+                </Nav.Link>
               ) : (
                 <Nav.Link to="/placeorder" disabled className="me-0">
                   Place Order
