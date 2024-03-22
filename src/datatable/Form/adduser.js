@@ -2,8 +2,8 @@
  import React, { useEffect, useState } from "react";
  import { Modal, Button, Form } from "react-bootstrap";
 import { registerUserHandler } from "../../service/user";
-import  socket, { handleAddUser, socketInstance } from "../../utils/socket";
-import ProductSocketHandler from "../../socket/productSocket";
+import   { socketInstance } from "../../utils/socket";
+// import ProductSocketHandler from "../../socket/productSocket";
 
 function BootstrapModal({ isOpen, handleClose, title }) {
   
@@ -30,15 +30,15 @@ function BootstrapModal({ isOpen, handleClose, title }) {
      const {data} = await registerUserHandler({name,email,password,role:role || 'merchant'})
      console.log(data,'register add user')
     if(data){
-      handleAddUser(data)
-      socketInstance.emit('addUser',data)
+      
+      socketInstance.emit('broadcastUserAdd',data
+
+      )
       setIsSubmited(true)
       setAddgetusersdata(data)
     }
  
-    if(data){
-      handleAddUser(data)
-    }
+    
 
     handleClose()
 

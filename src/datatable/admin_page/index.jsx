@@ -30,6 +30,7 @@ import Iconify from "../components/Iconify";
 import { useNavigate } from "react-router-dom";
 import BootstrapModal from "../Form/adduser";
 import { allUserDataGetApiHandler, userDeactiveHandler } from "../../service/user";
+import { socketInstance } from "../../utils/socket";
 
 export default function OrganizationContent() {
   const csvLinkRef = React.useRef(null);
@@ -110,6 +111,7 @@ export default function OrganizationContent() {
   const getData = async() => {
     const data = await allUserDataGetApiHandler()
     console.log('6656565777777777777777777777777777777777',data,'data')
+    socketInstance.emit('getUser',data.data)
     setUserdata(data.data)
   };
 

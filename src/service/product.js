@@ -1,10 +1,6 @@
 import axios from "axios"
-import { useDispatch, useSelector } from "react-redux";
-import { addToCart } from "../Slices/cartSlice";
 
 const token = localStorage.getItem("token");
-
-
 
 const addCartHandlerService = async(data) => {
   console.log(data, 'from services')

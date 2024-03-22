@@ -9,7 +9,7 @@ import toast from "react-hot-toast";
 import { addProductFromList } from "../Slices/productSlice";
 import {io} from "socket.io-client"
 import { addProductHandlerService, updateProductHandler } from "../service/product";
-import { handleProductAdd } from "../utils/socket";
+// import { handleProductAdd } from "../utils/socket";
 
 const validate = (values) => {
   const errors = {};
@@ -60,7 +60,7 @@ const UpdateModal = ({ show, handleClose, product}) => {
         try {
           const { data } = await addProductHandlerService(obj)
 
-          handleProductAdd(data)
+          // handleProductAdd(data)
           dispatch(addProductFromList(data));
         } catch (error) {
           console.log("error", error);
