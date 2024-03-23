@@ -26,7 +26,11 @@
     "shopNow": "Jetzt einkaufen"
   },
   "homePage": {
-    "filter": "Filtern"
+    "filter": "Filtern",
+    "outOfStock": "Ausverkauft",
+    "addToCart": "In den Warenkorb legen",
+    "productAddedToCart": "Produkt wurde zum Warenkorb hinzugefügt",
+    "productOutOfStockMessage": "Produkt ausverkauft"
   },
   "category": {
     "laptops": "Laptops",
@@ -34,6 +38,12 @@
     "airpods": "Airpods",
     "mouse": "Mouse",
     "camera": "Camera"
+  },
+  "sortBy": {
+    "priceLowToHigh": "Sortieren nach Preis: Niedrig bis hoch",
+    "priceHighToLow": "Sortieren nach Preis: Hoch bis niedrig",
+    "nameAZ": "Sortieren nach Name: A bis Z",
+    "nameZA": "Sortieren nach Name: Z bis A"
   },
   "product": {
     "Camera": "Kamera",

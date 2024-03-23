@@ -14,6 +14,7 @@ import toast from "react-hot-toast";
 import RecentlyViewedProducts from "./RecentlyViewedProducts";
 import Categories from "../componant/categories/Categories";
 import Benefit from "../componant/Benefit";
+import TopNavBar from "../componant/TopNavBar";
 
 // socket.on('hello', (res) => {
 //   toast.success(res.message)
@@ -76,6 +77,7 @@ const HomeScreen = () => {
 
   return (
     <>
+  
       <div className="d-flex align-items-center justify-content-between mb-3">
         <Example />
 

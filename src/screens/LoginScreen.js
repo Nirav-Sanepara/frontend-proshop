@@ -28,31 +28,32 @@ const LoginScreen = () => {
   useEffect(() => {
     if (productId) dispatch(listProductDetail(productId));
   }, [dispatch, productId]);
-
+  console.log(productId," jjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjj ")
  
 
 
-  const navigation = async () => {
-    if (productId) {
+  // const navigation = async () => {
+  //   if (productId) {
 
+  //    console.log(productId," jjj00000000000000000000000000000000000000jjjjjjjjjjjjjjj ")
+  //     try {
+  //       const token = localStorage.getItem("token");
+  //       const qty = localStorage.getItem("qty");
 
-      // try {
-      //   const token = localStorage.getItem("token");
-      //   const qty = localStorage.getItem("qty");
-      //   const response = await axios.post(
-      //     `${process.env.REACT_APP_API_BASE_PATH}/api/users/addTocart`,
-      //     { userId: userInfo._id, productId, quantity: qty },
-      //     { headers: { Authorization: `Bearer ${token}` } }
-      //   );
-      //   dispatch(addToCart(response?.data?.product));
-      // } catch (error) {
-      //   console.log("Error:", error);
-      // }
-      navigate("/cart");
-    } else {
-      navigate("/");
-    }
-  };
+  //       const response = await axios.post(
+  //         `${process.env.REACT_APP_API_BASE_PATH}/api/users/addTocart`,
+  //         { userId: userInfo._id, productId, quantity: qty },
+  //         { headers: { Authorization: `Bearer ${token}` } }
+  //       );
+  //       dispatch(addToCart(response?.data?.product));
+  //     } catch (error) {
+  //       console.log("Error:", error);
+  //     }
+  //     navigate("/cart");
+  //   } else {
+  //     navigate("/");
+  //   }
+  // };
 
   const forgot = async (e) => { 
     
@@ -132,29 +133,50 @@ const LoginScreen = () => {
           localStorage.setItem("userInfo", JSON.stringify(other));
           localStorage.setItem("token", token);
           
-          navigation(other);
+          if (productId) {
+
+            console.log(productId," jjj00000000000000000000000000000000000000jjjjjjjjjjjjjjj ")
+             try {
+               const token = localStorage.getItem("token");
+               const qty = localStorage.getItem("qty");
+       
+               const response = await axios.post(
+                 `${process.env.REACT_APP_API_BASE_PATH}/api/users/addTocart`,
+                 { userId: userInfo._id, productId, quantity: qty },
+                 { headers: { Authorization: `Bearer ${token}` } }
+               );
+               dispatch(addToCart(response?.data?.product));
+             } catch (error) {
+               console.log("Error:", error);
+             }
+             navigate("/cart");
+           } else {
+             navigate("/");
+           }
+          
         }
         
-        if (productId) {
-          try {
-            const token = localStorage.getItem("token");
-            const qty = localStorage.getItem("qty");
-            const response = await axios.post(
+        // if (productId) {
+        //   console.log(productId, " yhhhhhhhhhhhhhhhhhhhh")
+        //   try {
+        //     const token = localStorage.getItem("token");
+        //     const qty = localStorage.getItem("qty");
+        //     const response = await axios.post(
 
-              `${process.env.REACT_APP_API_BASE_PATH}/api/users/addTocart`,
-              { userId: userInfo._id, productId, quantity: qty },
-              {
-                headers: {
-                  "Content-Type": "application/json",
-                  Authorization: `Bearer ${token}`,
-                },
-              }
-            );
-            dispatch(addToCart(response?.data?.product));
-          } catch (error) {
-            console.log("Error:", error);
-          }
-        }
+        //       `${process.env.REACT_APP_API_BASE_PATH}/api/users/addTocart`,
+        //       { userId: userInfo._id, productId, quantity: qty },
+        //       {
+        //         headers: {
+        //           "Content-Type": "application/json",
+        //           Authorization: `Bearer ${token}`,
+        //         },
+        //       }
+        //     );
+        //     dispatch(addToCart(response?.data?.product));
+        //   } catch (error) {
+        //     console.log("Error:", error);
+        //   }
+        // }
         
       } catch (error) {
         toast.error(

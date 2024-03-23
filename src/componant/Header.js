@@ -7,6 +7,7 @@ import "../scss/Header.scss";
 import { useNavigate } from "react-router-dom";
 import { cartlist, existedCartItem } from "../Slices/cartSlice";
 import { useTranslation } from "react-i18next";
+import TopNavBar from "./TopNavBar";
 
 const Header = () => {
   
@@ -41,6 +42,7 @@ const Header = () => {
   };
   return (
     <header>
+    <TopNavBar/>
       <Navbar bg="dark" variant="dark" expand="lg" collapseOnSelect>
         <Container>
         <Navbar.Brand className="col-md-2" href="/">

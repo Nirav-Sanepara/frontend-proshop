@@ -30,7 +30,11 @@
   },
 
   "homePage": {
-    "filter": "Filter"
+    "filter": "Filter",
+    "outOfStock": "Out Of Stock",
+    "addToCart": "Add to Cart",
+    "productAddedToCart": "Product added to cart",
+    "productOutOfStockMessage": "Product Out Of Stock"
   },
   "category": {
     "laptops": "Laptops",
@@ -39,6 +43,15 @@
     "mouse": "Mouse",
     "camera": "Camera"
   },
+ 
+  "sortBy": {
+    "priceLowToHigh": "Sort by price: low to high",
+    "priceHighToLow": "Sort by price: high to low",
+    "nameAZ": "Sort by name: A to Z",
+    "nameZA": "Sort by name: Z to A"
+  },
+
+
   "product": {
     "Camera": "Camera",
     "altra": "altra",

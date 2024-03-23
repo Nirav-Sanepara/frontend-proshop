@@ -9,6 +9,7 @@ import { addToCart, cartlist } from "../Slices/cartSlice";
 import axios from "axios";
 import HeartIcon from "./HeartIcon";
 import IncrementDecrementBtn from "../screens/cart/cartComponent/IncrementDecrementBtn";
+import { useTranslation } from "react-i18next";
 
 const Product = ({ product }) => {
   const dispatch = useDispatch();
@@ -17,8 +18,9 @@ const Product = ({ product }) => {
   const { userInfo } = userLogin;
   const cart = useSelector((state) => state.cart);
   const { cartItems } = cart.cartList;
+  const [ t, i18n ] = useTranslation("global");
 
-  console.log(cartItems, " to check the condition ")
+  // console.log(cartItems, " to check the condition ")
 
   
   const navigate = useNavigate();
@@ -124,7 +126,7 @@ const Product = ({ product }) => {
                 block
                 className="w-100 p-1 opacity-75"
               >
-                Add to Cart
+              {t('homePage.addToCart')}
               </Button>
             )}
           </>
@@ -152,7 +154,7 @@ const Product = ({ product }) => {
             block
             className="w-100 p-1 opacity-75"
           >
-            Out of Stock
+           {t('homePage.outOfStock')}
           </Button>
         )}
       </div>

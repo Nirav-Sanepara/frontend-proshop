@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Modal, Form, Button } from "react-bootstrap";
 import axios from "axios";
-import { da } from "@faker-js/faker";
+import moment from "moment-timezone"; // Using Moment-Timezone for time zone handling
 
 const ReturnOrderModal = ({ show, onHide, modalContent }) => {
   const [returnReason, setReturnReason] = useState("");
@@ -19,7 +19,7 @@ const ReturnOrderModal = ({ show, onHide, modalContent }) => {
           orderId: modalContent.orderId,
           return_status: "success",
           reason: returnReason,
-          return_date: Date.now(),
+          return_date: moment().toISOString(), // Using UTC time for return date
         },
         {
           headers: {
@@ -34,12 +34,14 @@ const ReturnOrderModal = ({ show, onHide, modalContent }) => {
     }
   };
 
-  const orderDate = new Date(modalContent.orderedDate);
-  const currentDate = new Date();
-  const timeDifference = currentDate.getTime() - orderDate.getTime();
-  const daysDifference = Math.ceil(timeDifference / (1000 * 3600 * 24));
+  const orderDate = moment(modalContent.orderedDate); // Convert to moment object
+  const currentDate = moment(); // Current date in user's time zone
 
-  console.log(daysDifference, " to check days ");
+  // Calculate difference in days, considering time zone
+  const daysDifference = currentDate.diff(orderDate, "days");
+
+  console.log(daysDifference, " -------------------------------------------- ")
+
   return daysDifference <= 7 ? (
     <Modal show={show} onHide={onHide} centered>
       <Modal.Header closeButton>
@@ -105,8 +107,8 @@ const ReturnOrderModal = ({ show, onHide, modalContent }) => {
     </Modal>
   ) : (
     <Modal show={show} onHide={onHide} centered>
-    <Modal.Header closeButton>
-        <Modal.Title>Order cannot be return</Modal.Title>
+      <Modal.Header closeButton>
+        <Modal.Title>Order cannot be returned</Modal.Title>
       </Modal.Header>
     </Modal>
   );

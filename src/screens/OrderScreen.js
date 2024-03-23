@@ -34,8 +34,8 @@ const OrderScreen = () => {
     setShowModal(true);
   };
 
-  console.log(orders, " the order inside thing s ");
-  // console.log(orders[0].createdAt, " date ")
+  // console.log(orders, " the order inside thing s ");
+  // // console.log(orders[0].createdAt, " date ")
   console.log(modalContent, " the content inside modal ");
   var orderDate = new Date(Date.parse(modalContent.orderedDate));
 
@@ -149,12 +149,22 @@ const OrderScreen = () => {
                 <ListGroup variant="flush">
                   {orders.map((item,index) => {
                     return (
-                      <ListGroup.Item key={index}>
+                      <ListGroup.Item key={index} >
                         <Row>
                           <Col md={8}>
                             {item.orderItems !== undefined &&
                               item.orderItems.map((ele, ind) => (
-                                <Row>
+                                <Row  onClick={() =>
+                                  openModal({
+                                    name: ele.name,
+                                    shippingAddress:
+                                    item?.shippingAddress,
+                                    orderId: item?._id,
+                                    orderedDate: item?.createdAt,
+                                    updatedDatee: item?.updatedAt,
+                                    delivery: item?.isDelivered, 
+                                    productId: ele?._id,  })
+                                }>
                                   <Col md={2}>
                                     <Image
                                       src={ele.image}
@@ -166,17 +176,7 @@ const OrderScreen = () => {
                                   <Col md={10}>
                                     <Link
                                       to="#"
-                                      onClick={() =>
-                                        openModal({
-                                          name: ele.name,
-                                          shippingAddress:
-                                          item?.shippingAddress,
-                                          orderId: item?._id,
-                                          orderedDate: item?.createdAt,
-                                          updatedDatee: item?.updatedAt,
-                                          delivery: item?.isDelivered, 
-                                          productId: ele?._id,                                                                                  })
-                                      }
+                                     
                                     >
                                       {ele.name}
                                     </Link>

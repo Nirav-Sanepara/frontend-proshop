@@ -23,8 +23,8 @@ const Footer = () => {
               English
             </Button>
 
-            <Button variant="link" onClick={() => changeLanguage("sp")}>
-              Español
+            <Button variant="link" onClick={() => changeLanguage("gm")}>
+             Germany
             </Button>
           </Col>
         </Row>
