@@ -134,6 +134,14 @@ export default function OrganizationContent() {
     getData()
   };
 
+// useEffect(() => {
+
+//   socketInstance.on('addUser', (data) => dispatch(adduser(data)) )
+
+// }, [socketInstance])
+
+
+
   useEffect(() => {
     getData();
   }, [isModalAddOpen, userData?.length]);
