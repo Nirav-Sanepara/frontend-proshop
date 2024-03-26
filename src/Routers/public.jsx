@@ -32,7 +32,7 @@ const PublicContainer = ({ children }) => {
         else {
           if(location.pathname==="/login")
           {
-          navigate(previousPath);
+          navigate('/');
 
           }
           else {

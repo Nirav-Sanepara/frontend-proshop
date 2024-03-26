@@ -24,7 +24,7 @@ import { useNavigate } from "react-router-dom";
 import BootstrapModal from "../Form/adduser";
 import { userDeactiveHandler } from "../../service/user";
 import { useDispatch, useSelector } from "react-redux";
-import { allUsersData, deActiveUser } from "../../Slices/allUsers";
+import { allUsersData, deActiveUser } from "../../Slices/adminSlice";
 export default function OrganizationContent() {
   const csvLinkRef = React.useRef(null);
 
@@ -56,21 +56,6 @@ export default function OrganizationContent() {
     setModalTitle("Add Organization Details");
   };
 
-  // const handleDelete = async (id) => {
-  //   try {
-  //     return;
-  //   } catch (error) {
-  //   } finally {
-  //     setIsDeleteConfirmed(false);
-  //   }
-  // };
-
-  // React.useEffect(() => {
-  //   if (isDeleteConfirmed) {
-  //     handleDelete(deleteData);
-  //   }
-   
-  // }, [isDeleteConfirmed]);
 
   React.useEffect(() => {
     if (ofcId) {

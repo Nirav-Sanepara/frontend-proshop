@@ -7,8 +7,8 @@ import productSlice from "./Slices/productSlice";
 import userSlice from "./Slices/userSlice.js";
 import OrderSlice from "./Slices/OrderSlice.js";
 import favouriteSlice from "./Slices/favouriteSlice.js";
-import allusersDataSlice from './Slices/allUsers.js'
-
+import allusersDataSlice from './Slices/adminSlice.js'
+import merchantSlice from "./Slices/merchantSlice.js";
 
 const reducer = combineReducers({
   product: productSlice,
@@ -17,6 +17,7 @@ const reducer = combineReducers({
   user: userSlice,
   favourite: favouriteSlice,
   usersData : allusersDataSlice,
+  merchant : merchantSlice,
 });
 
 const middleware = [thunk];

@@ -7,9 +7,9 @@ import ProfileEmailField from "../../componant/profile/profileField/ProfileEmail
 import ProfilePasswordField from "../../componant/profile/profileField/ProfilePasswordField";
 import { validateFormValues } from "../../componant/joi_validation/validation";
 import {registerUserHandler, updateUserProfileByIdHandler} from '../../service/user.js'
-import { addUsers, updateUser } from "../../Slices/allUsers.js";
+import { addUsers, updateUser } from "../../Slices/adminSlice.js";
 import {useDispatch} from 'react-redux'
-
+import {socketInstance} from '../../utils/socket.js'
 const BootstrapModal = ({ isOpen, handleClose, title, userData }) => {
   const dispatch = useDispatch()
   const formik = useFormik({
@@ -45,9 +45,11 @@ const BootstrapModal = ({ isOpen, handleClose, title, userData }) => {
         } else {
          
           // Handle add logic
+          
           const response = await registerUserHandler({name:obj.name, email:obj.email, password:obj.password, role:obj.role || "merchant"})
-         
-          dispatch(addUsers(response.data))
+          socketInstance.on('addUser',dispatch( addUsers(response.data)))
+          socketInstance.emit('broadcastUserAdd',response.data)
+          // dispatch(addUsers(response.data))
           toast.success("User added successfully.");
         }
         handleClose();

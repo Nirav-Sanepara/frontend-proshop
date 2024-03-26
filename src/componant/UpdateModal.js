@@ -7,7 +7,8 @@ import { updateProduct } from "../Slices/productSlice";
 import toast from "react-hot-toast";
 import { addProductFromList } from "../Slices/productSlice";
 import {  updateProductHandler } from "../service/product";
-
+import { addProductHandlerService } from "../service/product";
+import { addProduct, updateProductsData } from "../Slices/merchantSlice";
 const validate = (values) => {
   const errors = {};
   if (!values.productName) {
@@ -28,7 +29,7 @@ const validate = (values) => {
 };
 const UpdateModal = ({ show, handleClose, product}) => {
   console.log(product,'product from update form')
- const token = localStorage.getItem('token')
+
   const dispatch = useDispatch();
   const [imgurl, setImgurl] = useState("");
   const formik = useFormik({
@@ -40,7 +41,7 @@ const UpdateModal = ({ show, handleClose, product}) => {
       productCategory: product ? product.category : "",
       productDescription: product ? product.description : "",
       productBrandName: product ? product.brand : "",
-      productCountInStock: product ? product.countInStock : "",
+      productCountInStock: +product ? +product.countInStock : "",
     },
     validate,
     onSubmit: async (values) => {
@@ -57,8 +58,8 @@ const UpdateModal = ({ show, handleClose, product}) => {
         try {
           const { data } = await addProductHandlerService(obj)
 
-          // handleProductAdd(data)
           dispatch(addProductFromList(data));
+          dispatch(addProduct(data))
         } catch (error) {
           console.log("error", error);
         }
@@ -72,6 +73,7 @@ const UpdateModal = ({ show, handleClose, product}) => {
             const  data  = await updateProductHandler({id, obj})
             
             dispatch(updateProduct(data?.data?.product));
+            dispatch(updateProductsData(data?.data?.product))
             toast.success("Product updated successfully");
           } catch (error) {
             toast.error("Updation failed ", {

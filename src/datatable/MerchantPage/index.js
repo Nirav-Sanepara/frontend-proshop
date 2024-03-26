@@ -1,29 +1,28 @@
 
-//  
-import UserDataEditForm from "../Form";
+
 import React, { useEffect } from "react";
 import { useState } from "react";
-import PropTypes from "prop-types";
+
 import {
-  Link,
+  
    useSearchParams,
 } from "react-router-dom";
 // material
 import {
-  Button,
+  
   Box,
-  IconButton,
-  Tooltip,
   Switch,
 } from "@mui/material";
 import MUIDataTable from "mui-datatables";
-import Iconify from "../components/Iconify";
+
 import './merchant.css'
 import { useNavigate } from 'react-router-dom';
 
-import axios from "axios";
-import UpdateModal from "../../componant/allProductScreenCompo/AddEditModal";
-import { getProductByUsersId, productActiveStatusHandler } from "../../service/product";
+import { productActiveStatusHandler } from "../../service/product";
+import DeleteEditeTableTooltip from "../components/deleteEdit";
+import AddnewRowTable from "../components/addTablerow";
+import { useDispatch, useSelector } from "react-redux";
+import { activeDeactiveProduct, merchantsProductlist } from "../../Slices/merchantSlice";
 
 export default function MerchantPageProductDetails({ props }) {
   const csvLinkRef = React.useRef(null);
@@ -32,76 +31,32 @@ export default function MerchantPageProductDetails({ props }) {
   const [isDeleteConfirmed, setIsDeleteConfirmed] = useState(false);
   const [deleteData, setDeleteData] = useState(null);
   const [page, setPage] = useState(0);
-  const [selectedProduct, setSelectedProduct] = useState(null);
+
   const navigate = useNavigate()
   // const location = useLocation();
-
   const [searchParams, setSearchParams] = useSearchParams();
   const formateParams = Object.fromEntries(searchParams);
-  const [addbtn, setAddBtn] = useState(false)
-  const [showModal, setShowModal] = useState(false); 
-  const handleShow = () => {
-    setShowModal(true)
-    setAddBtn(true)
-  };
-  const handleClose = () => {
-    setShowModal(false);
-    setAddBtn(false);
-  };
-  const [productsData, setProductsData] = useState([])
-  const token = (localStorage.getItem("token"));
+
+  const dispatch = useDispatch()
+
+  const displayProductlist  = useSelector(state => state.merchant.merchantSProduct)
+
+  console.log(displayProductlist,'merchant page')
+  
   const {
     organization_id: organization,
     office_id: ofcId,
     user_id: userId,
   } = formateParams;
 
-  const Api = `${process.env.REACT_APP_API_BASE_PATH}/api/products/all/products`;
-  const getData = async () => {
-    
-    const { data } = await axios.get(Api, {
-      headers: {
-        "Content-Type": "application/json",
-        "Authorization": `Bearer ${token}`,
-      }
-    })
-    setProductsData(data)
-   
-  }
-
-
-
-  const [sentBtn, setSendBtn] = useState(false);
-  const [showModalEdit, setShowModalEdit] = useState(false);
   const [isClicked, setIsClicked] = useState(false)
-  const [productDetails, setProductDetails] = useState({})
-
-
-  const handleEditClick = (id) => {
-
-    
-    for(let i=0; i<productsData?.length; i++){
-        if(productsData[i]._id==id){
-          setProductDetails(productsData[i])
-        }
-    }
-    setAddBtn(false)
-    setShowModalEdit(true);
-    setSendBtn(true);
-    // Additional logic for handling the edit click event if needed
-  };
-  const handleCloseEdit = () =>{
-    
-    setShowModalEdit(false)
-    setSendBtn(false)
-  };
-
+  
   const handleActiveStatus = async (id) => {
   
     const data = await productActiveStatusHandler(id)
-    
-    getData()
-    setIsClicked(!isClicked)
+    dispatch(activeDeactiveProduct(data.data.isExists ));
+     
+     setIsClicked(!isClicked)
   }
 
 
@@ -113,10 +68,10 @@ export default function MerchantPageProductDetails({ props }) {
       setIsDeleteConfirmed(false);
     }
   };
-
+  
   useEffect(() => {
-    getData();
-  }, [showModal, showModalEdit, sentBtn]);
+    dispatch(merchantsProductlist())
+  }, [dispatch]);
 
   React.useEffect(() => {
     if (isDeleteConfirmed) {
@@ -130,32 +85,13 @@ export default function MerchantPageProductDetails({ props }) {
     }
   }, [searchParams, organization]);
 
-  const handleDeleteUser = (id) => {
-
-    console.log('clicked delete id', id);
-    fetch(`${process.env.REACT_APP_API_BASE_PATH}/api/products/${id}`, {
-      method: "DELETE",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
-      },
-    })
-      .then((req) => req.json())
-      .then((res) => {
-        
-        getData()
-        alert('Product Deleted Successfully')
-      })
-      .catch((err) => err);
-  };
-
   const columns = [
     {
       name: "_id",
       label: "id",
       options: {
         filter: false,
-        display: productsData._id,
+        display: displayProductlist._id,
 
         viewColumns: false,
         customBodyRender: (value) => value,
@@ -272,52 +208,10 @@ export default function MerchantPageProductDetails({ props }) {
         display: true,
         viewColumns: false,
         customBodyRender: (value, tableMeta, updateValue) => {
-          const product = productsData[tableMeta.rowIndex]
-         
+           
           return (
-            <Box
-              sx={{
-                width: "100%",
-                display: "flex",
-              }}
-              onClick={(e)=>e.stopPropagation()}
-            >
-              <Tooltip title="Edit" sx={{color:"black", backgroundColor:"white"}}>
-                <IconButton
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    handleEditClick(tableMeta.rowData[0]);
-                  }}
-                 
-
-                  sx={{ marginRight: "12px" }}
-                >
-                  <Iconify icon={"eva:edit-fill"} />
-                </IconButton>
-
-                <div>
-
-                 {sentBtn &&  <UpdateModal
-                    show={showModalEdit}
-                    handleClose={handleCloseEdit}
-                    product={productDetails}
-                   
-                  />}
-
-                </div>
-              </Tooltip>
-              <Tooltip title="Delete">
-                <IconButton
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    handleDeleteUser(tableMeta.rowData[0]);
-                  }}
-                  sx={{ color: "error.main" }}
-                >
-                  <Iconify icon={"eva:trash-2-outline"} />
-                </IconButton>
-              </Tooltip>
-            </Box>
+            
+            <DeleteEditeTableTooltip productDetails={displayProductlist} tableMeta={tableMeta} compoData='product'/>
           );
         },
       },
@@ -362,38 +256,11 @@ export default function MerchantPageProductDetails({ props }) {
     <Box>
      
         <>
-          <Box
-            sx={{
-              display: "flex",
-              justifyContent: "flex-end",
-              marginBottom: "24px",
-            }}
-          >
-            <Button
-              onClick={() => {
-                handleShow()
-              
-                setSelectedProduct({})
-              }}
-              variant="contained"
-              component={Link}
-              to="#"
-              className="m-2 border border-light float-right"
-              sx={{
-                backgroundColor: "#343A40",
-                borderRadius: "0px",
-                border: "none",
-              }}
-              startIcon={<Iconify icon="eva:plus-fill" />}
-            >
-              Add Product
-            </Button>
-            {addbtn && <UpdateModal  show={showModal}  handleClose={handleClose} product={null} />}
-          </Box>
+          <AddnewRowTable compo='product'/>
 
           <MUIDataTable
             title={"Organizations"}
-            data={productsData}
+            data={displayProductlist}
             columns={columns}
             options={options}
           />
@@ -404,30 +271,30 @@ export default function MerchantPageProductDetails({ props }) {
   );
 }
 
-function TabPanel(props) {
-  const { children, value, index, ...other } = props;
+// function TabPanel(props) {
+//   const { children, value, index, ...other } = props;
 
-  return (
-    <div
-      role="tabpanel"
-      hidden={value !== index}
-      id={`simple-tabpanel-${index}`}
-      aria-labelledby={`simple-tab-${index}`}
-      {...other}
-    >
-      {value === index && (
-        <Box className="userDataList" sx={{ p: 3 }}>
-          {children}
-        </Box>
-      )}
-    </div>
-  );
-}
+//   return (
+//     <div
+//       role="tabpanel"
+//       hidden={value !== index}
+//       id={`simple-tabpanel-${index}`}
+//       aria-labelledby={`simple-tab-${index}`}
+//       {...other}
+//     >
+//       {value === index && (
+//         <Box className="userDataList" sx={{ p: 3 }}>
+//           {children}
+//         </Box>
+//       )}
+//     </div>
+//   );
+// }
 
-TabPanel.propTypes = {
-  children: PropTypes.node,
-  index: PropTypes.number.isRequired,
-  value: PropTypes.number.isRequired,
-};
+// TabPanel.propTypes = {
+//   children: PropTypes.node,
+//   index: PropTypes.number.isRequired,
+//   value: PropTypes.number.isRequired,
+// };
 
 

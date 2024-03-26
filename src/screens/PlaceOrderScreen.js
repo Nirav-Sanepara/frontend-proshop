@@ -61,7 +61,11 @@ const PlaceOrderScreen = ({ history }) => {
 
   const dataa = [];
   
+  const productData = cartItems.filter((ele) => {
+    dataa.push({ ...ele.product, quantity: ele.quantity });
 
+    return ele.product;
+  });
   const placeOrderHandler = async () => {
     try {
       const token = localStorage.getItem("token");

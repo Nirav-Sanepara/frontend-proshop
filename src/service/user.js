@@ -81,6 +81,22 @@ const forgotPasswordHandler = (email) => {
       );
 }
 
+const getProductsByMerchantId = () => {
+  const Api = `${process.env.REACT_APP_API_BASE_PATH}/api/products/all/products`;
+ 
+    
+   return axios.get(Api, {
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": `Bearer ${token}`,
+      }
+    })
+    
+   
+  
+
+}
+
 const resetPasswordHandler = ({userId,password}) => {
     return  axios.patch(
         `${process.env.REACT_APP_API_BASE_PATH}/api/users/reset-password/${userId}/${token}`,
@@ -111,5 +127,6 @@ export {
     updateUserProfileByIdHandler,
     allUserDataGetApiHandler,
     forgotPasswordHandler,
-    resetPasswordHandler
+    resetPasswordHandler,
+    getProductsByMerchantId
 }

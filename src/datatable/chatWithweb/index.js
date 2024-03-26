@@ -25,7 +25,7 @@ const WebSocketComponent = () => {
       
           setSocket(ws);
           setIsClicked(false)
-          // Cleanup WebSocket on component unmount
+          
           return () => {
             ws.close();
           };
