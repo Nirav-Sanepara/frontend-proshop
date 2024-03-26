@@ -62,7 +62,7 @@ const allUserDataGetApiHandler = async() =>{
             Authorization: `Bearer ${token}`,
           },
     })
-    console.log(data,'ppppppppppppp')
+    // console.log(data,'ppppppppppppp')
     return data
 }
 

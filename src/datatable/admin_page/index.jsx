@@ -22,8 +22,9 @@ import MUIDataTable from "mui-datatables";
 import Iconify from "../components/Iconify";
 import { useNavigate } from "react-router-dom";
 import BootstrapModal from "../Form/adduser";
-import { allUserDataGetApiHandler, userDeactiveHandler } from "../../service/user";
-import {useSelector} from 'react-redux'
+import { userDeactiveHandler } from "../../service/user";
+import { useDispatch, useSelector } from "react-redux";
+import { allUsersData, deActiveUser } from "../../Slices/allUsers";
 export default function OrganizationContent() {
   const csvLinkRef = React.useRef(null);
 
@@ -33,8 +34,8 @@ export default function OrganizationContent() {
   const [editUser, setEditUser] = useState(null); // State to store the user being edited
   const [isModalOpen, setIsModalOpen] = useState(false);
 
-  const [isDeleteConfirmed, setIsDeleteConfirmed] = useState(false);
-  const [deleteData, setDeleteData] = useState(null);
+  // const [isDeleteConfirmed, setIsDeleteConfirmed] = useState(false);
+  // const [deleteData, setDeleteData] = useState(null);
   const [page, setPage] = useState(0);
   const dataInformation = useSelector( state => state.usersData.usersData )
   console.log(dataInformation,'information')
@@ -42,6 +43,7 @@ export default function OrganizationContent() {
 
   const [searchParams, setSearchParams] = useSearchParams();
   const formateParams = Object.fromEntries(searchParams);
+  const dispatch =useDispatch()
   const {
     organization_id: organization,
     office_id: ofcId,
@@ -54,23 +56,21 @@ export default function OrganizationContent() {
     setModalTitle("Add Organization Details");
   };
 
-  const handleDelete = async (id) => {
-    try {
-      return;
-    } catch (error) {
-    } finally {
-      setIsDeleteConfirmed(false);
-    }
-  };
+  // const handleDelete = async (id) => {
+  //   try {
+  //     return;
+  //   } catch (error) {
+  //   } finally {
+  //     setIsDeleteConfirmed(false);
+  //   }
+  // };
 
-  const [userData, setUserdata] = useState([]);
-
-  React.useEffect(() => {
-    if (isDeleteConfirmed) {
-      handleDelete(deleteData);
-    }
+  // React.useEffect(() => {
+  //   if (isDeleteConfirmed) {
+  //     handleDelete(deleteData);
+  //   }
    
-  }, [isDeleteConfirmed]);
+  // }, [isDeleteConfirmed]);
 
   React.useEffect(() => {
     if (ofcId) {
@@ -79,29 +79,22 @@ export default function OrganizationContent() {
    
   }, [searchParams, organization]);
 
-  const getData = async() => {
-    const data = await allUserDataGetApiHandler()
-     setUserdata(data.data)
-  };
-
   const handleDeleteUser = async(id) => {
-    const dat=await userDeactiveHandler(id)
-    if(dat){
-      getData()
-    }
+    const {data}=await userDeactiveHandler(id)
+    console.log(data,'deleted data')
+    dispatch(deActiveUser(data.user))
   };
 
-  useEffect(() => {
-    getData();
-  }, [isModalOpen, userData?.length]);
-
+  useEffect(()=>{
+  dispatch(allUsersData())
+  },[dispatch])
   const columns = [
     {
       name: "_id",
       label: "id",
       options: {
         filter: false,
-        display: userData._id,
+        display:dataInformation._id,
         viewColumns: false,
         customBodyRender: (value) => (value ? value : "-"),
       },
@@ -121,7 +114,7 @@ export default function OrganizationContent() {
       options: {
         filter: true,
         sort: true,
-        display: userData.email,
+        display: dataInformation.email,
         customBodyRender: (value) => (value ? value : "-"),
       },
     },
@@ -131,7 +124,7 @@ export default function OrganizationContent() {
       options: {
         filter: true,
         sort: true,
-        display: userData.role,
+        display: dataInformation.role,
         customBodyRender: (value) => (value ? value : "-"),
       },
     },
@@ -217,8 +210,8 @@ export default function OrganizationContent() {
     responsive: "standard",
     selectableRows: "none",
     onRowClick: (rowData) => {
-      const index = userData.findIndex((org) => org._id === rowData[0]);
-      setCurrentOrgRow(userData[index]);
+      const index = dataInformation.findIndex((org) => org._id === rowData[0]);
+      setCurrentOrgRow(dataInformation[index]);
       if (rowData[3] == "merchant") {
         navigate({
           pathname: `/merchant-details`,
@@ -248,7 +241,7 @@ export default function OrganizationContent() {
 
   const handleEditClick = async (rowData) => {
     console.log("rowData", rowData);
-    const user = userData.find((user) => user._id === rowData[0]);
+    const user = dataInformation.find((user) => user._id === rowData[0]);
     console.log("id", user._id);
     setEditUser(user);
     setIsModalOpen(true);
@@ -283,7 +276,7 @@ export default function OrganizationContent() {
 
           <MUIDataTable
             title={"Organizations"}
-            data={userData}
+            data={dataInformation}
             columns={columns}
             options={options}
           />

@@ -1,5 +1,6 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
+import { allUserDataGetApiHandler } from "../service/user";
 
 const initialState = {
   usersData: [],
@@ -7,28 +8,21 @@ const initialState = {
   loading: false,
 };
 
-const token = localStorage.getItem("token");
+
 export const allUsersData = createAsyncThunk(
   "usersData/allUsersData",
   async () => {
     try {
-      const data = await axios.get(
-        process.env.REACT_APP_API_BASE_PATH + "/api/users",
-        {
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
+      const data = await allUserDataGetApiHandler()
+      
+     return data.data
 
-      console.log("response from userdata slice", data, "alldata users");
     } catch (err) {
       console.log("error from slice", err);
     }
   }
 );
-
+console.log(initialState,'slice initial state')
 const allusersDataSlice = createSlice({
   name: "usersData",
   initialState,
@@ -37,13 +31,19 @@ const allusersDataSlice = createSlice({
      state.usersData = state.usersData .push(action.payload)
     },
     updateUser(state, action) {
-       state.usersData=state.usersData.map((ele,ind)=>{
-        return ele=action.payload
-       })
+      const updatedUser = action.payload
+      
+       state.usersData=state.usersData.map((ele,ind)=>
+       ele._id ==  updatedUser._id ?  updatedUser : ele 
+      )
     },
     deActiveUser(state,action) {
+      // console.log(state,'state','\n','actions',action)
+      var actionData = action.payload;
+      actionData.isActive=false;
+
       state.usersData = state.usersData.map((ele,ind)=>{
-        return ele._isActive=action.payload
+        return ele._id == actionData._id ? actionData : ele
       })
     },
   },
@@ -66,5 +66,5 @@ const allusersDataSlice = createSlice({
 });
 
 export default allusersDataSlice.reducer;
-export const { addUsers, updateUser, deActiveUser } = allusersDataSlice.actions;
+export const { addUsers, updateUser, deActiveUser, } = allusersDataSlice.actions;
   

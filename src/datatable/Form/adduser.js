@@ -7,8 +7,11 @@ import ProfileEmailField from "../../componant/profile/profileField/ProfileEmail
 import ProfilePasswordField from "../../componant/profile/profileField/ProfilePasswordField";
 import { validateFormValues } from "../../componant/joi_validation/validation";
 import {registerUserHandler, updateUserProfileByIdHandler} from '../../service/user.js'
+import { addUsers, updateUser } from "../../Slices/allUsers.js";
+import {useDispatch} from 'react-redux'
 
 const BootstrapModal = ({ isOpen, handleClose, title, userData }) => {
+  const dispatch = useDispatch()
   const formik = useFormik({
     initialValues: {
       name: userData?.name || "",
@@ -32,18 +35,19 @@ const BootstrapModal = ({ isOpen, handleClose, title, userData }) => {
         role: values.role,
       };
       try {
-        console.log("oooo", userData);
+        
         if (userData !== null) {
-          const token = localStorage.getItem("token");
-          // Handle edit logic
+          // handle edit logic         
           const response = await updateUserProfileByIdHandler({id:userData._id,name:obj.name, email:obj.email, password:obj.password})
           
+           dispatch(updateUser(response.data))
           toast.success("User updated successfully.");
         } else {
-          const token = localStorage.getItem("token");
+         
           // Handle add logic
           const response = await registerUserHandler({name:obj.name, email:obj.email, password:obj.password, role:obj.role || "merchant"})
-          
+         
+          dispatch(addUsers(response.data))
           toast.success("User added successfully.");
         }
         handleClose();
