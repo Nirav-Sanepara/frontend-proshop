@@ -1,12 +1,14 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { useFormik } from "formik";
 import { Modal, Button } from "react-bootstrap";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import "../scss/Modal.scss";
 import { updateProduct } from "../Slices/productSlice";
 import toast from "react-hot-toast";
 import { addProductFromList } from "../Slices/productSlice";
-import {  updateProductHandler } from "../service/product";
+import { updateProductHandler } from "../service/product";
+import { addProductHandlerService } from "../service/product";
+import socketInstance from "../utils/socket";
 
 const validate = (values) => {
   const errors = {};
@@ -26,9 +28,9 @@ const validate = (values) => {
   }
   return errors;
 };
-const UpdateModal = ({ show, handleClose, product}) => {
-  console.log(product,'product from update form')
- const token = localStorage.getItem('token')
+const UpdateModal = ({ show, handleClose, product }) => {
+  console.log(product, "product from update form");
+
   const dispatch = useDispatch();
   const [imgurl, setImgurl] = useState("");
   const formik = useFormik({
@@ -53,23 +55,25 @@ const UpdateModal = ({ show, handleClose, product}) => {
         brand: values.productBrandName,
         countInStock: values.productCountInStock,
       };
-      if (product == null || product == undefined) {
+      if (product === null || product === undefined) {
         try {
-          const { data } = await addProductHandlerService(obj)
+          const { data } = await addProductHandlerService(obj);
 
           // handleProductAdd(data)
           dispatch(addProductFromList(data));
+          // socketInstance.on('addProduct',dispatch( addProductFromList(data)))
+          console.log(" hooeeeeeeeeeeeeeeeeeeeeee ")
+          socketInstance.on('addProduct',data)
         } catch (error) {
           console.log("error", error);
         }
-        
+
         handleClose();
-      }
-      else {
+      } else {
         const updateProductbyid = async (id) => {
-        
           try {
-            const  data  = await updateProductHandler({id, obj})
+            const data = await updateProductHandler({ id, obj });
+
             
             dispatch(updateProduct(data?.data?.product));
             toast.success("Product updated successfully");
@@ -81,16 +85,13 @@ const UpdateModal = ({ show, handleClose, product}) => {
                 color: "#fff",
               },
             });
-
           }
         };
         updateProductbyid(product?._id);
         handleClose();
-        
       }
     },
   });
-
 
   return (
     <Modal

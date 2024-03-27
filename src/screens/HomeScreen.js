@@ -16,6 +16,7 @@ import Categories from "../componant/categories/Categories";
 import Benefit from "../componant/Benefit";
 // import { Filter } from "@mui/icons-material";
 import Filter from "../componant/HomeScreen/filter/Filter"
+import AdsComponent from "../componant/AdsComponent";
 // socket.on('hello', (res) => {
 //   toast.success(res.message)
 // })
@@ -145,6 +146,11 @@ const HomeScreen = () => {
               <RecentlyViewedProducts />
             </Row>
           )}
+
+          <Row>
+
+            <AdsComponent />
+          </Row>
         </>
       )}
     </>
