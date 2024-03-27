@@ -91,11 +91,15 @@ const Header = () => {
                   </NavDropdown>
 
                   {userInfo?.role === "admin" ? (
+                    <>
+                     <Nav.Link href="all-products"> {t("header.allProducts")}</Nav.Link>
                     <Nav.Link href="/admin">{t("header.admin")}</Nav.Link>
+                    </>
+                    
                   ) : userInfo?.role === "merchant" ? (
                     <>
                       <Nav.Link href="/merchant">{t("header.merchant")}</Nav.Link>
-                      <Nav.Link href="all-products"> {t("header.allProducts")}</Nav.Link>
+                     
                     </>
                   ) : (
                     <Nav.Link onClick={() => setShow(true)}>
