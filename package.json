@@ -20,6 +20,7 @@
     "axios": "^0.24.0",
     "bootstrap": "^4.6.2",
     "bootstrap-icons": "^1.11.3",
+    "build": "^0.1.4",
     "firebase": "^10.8.1",
     "formik": "^2.4.5",
     "html2canvas": "^1.4.1",
@@ -89,8 +90,11 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+    
   },
   "devDependencies": {
     "redux-mock-store": "^1.5.4"
-  }
+  },
+ 
+  "homepage": ""
 }

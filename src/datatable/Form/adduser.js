@@ -61,14 +61,15 @@ const BootstrapModal = ({ isOpen, handleClose, title, userData }) => {
             password: obj.password,
             role: obj.role || "merchant",
           });
-         const broadcastEmit = socketInstance.emit("broadcastUserAdd", data);
-         console.log(broadcastEmit,'broadcastEmit')
-        const adduserBroadcast=  socketInstance.on('addUser', data => {
+         socketInstance.emit("broadcastUserAdd", data);
+        //  console.log(broadcastEmit,'broadcastEmit')
+       
+          const handleAddUser = (data) => {
             console.log('New user added:', data);
-            
             dispatch(addUsers(data))
-        });
-          console.log(adduserBroadcast,'broadcast 88888888888888888888888888888888888888888888')
+          };
+
+          socketInstance.on('addUser', handleAddUser)
           toast.success("User added successfully.");
         }
         handleClose();
