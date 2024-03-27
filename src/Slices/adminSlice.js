@@ -28,6 +28,7 @@ const allusersDataSlice = createSlice({
   initialState,
   reducers: {
     addUsers(state, action) {
+      console.log('inside add user slice',action)
      state.usersData = state.usersData .push(action.payload)
     },
     updateUser(state, action) {

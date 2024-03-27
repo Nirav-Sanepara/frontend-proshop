@@ -6,12 +6,15 @@ import ProfileNameField from "../../componant/profile/profileField/ProfileNameFi
 import ProfileEmailField from "../../componant/profile/profileField/ProfileEmailField";
 import ProfilePasswordField from "../../componant/profile/profileField/ProfilePasswordField";
 import { validateFormValues } from "../../componant/joi_validation/validation";
-import {registerUserHandler, updateUserProfileByIdHandler} from '../../service/user.js'
+import {
+  registerUserHandler,
+  updateUserProfileByIdHandler,
+} from "../../service/user.js";
 import { addUsers, updateUser } from "../../Slices/adminSlice.js";
-import {useDispatch} from 'react-redux'
-import {socketInstance} from '../../utils/socket.js'
+import { useDispatch } from "react-redux";
+import { socketInstance } from "../../utils/socket.js";
 const BootstrapModal = ({ isOpen, handleClose, title, userData }) => {
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
   const formik = useFormik({
     initialValues: {
       name: userData?.name || "",
@@ -19,42 +22,61 @@ const BootstrapModal = ({ isOpen, handleClose, title, userData }) => {
       password: "",
       role: userData?.role || "user",
     },
-    
+
     // validate: (values) => {
     //   const errors = validateFormValues(values, userData);
     //   return errors;
     // },
 
     onSubmit: async (values, { setSubmitting }) => {
-    
-      console.log("in submit func");
+      // console.log("in submit func");
       const obj = {
         name: values.name,
         email: values.email,
         password: values.password,
         role: values.role,
       };
+      console.log(
+        obj,
+        "obj./././..............................////////////////////"
+      );
       try {
-        
         if (userData !== null) {
-          // handle edit logic         
-          const response = await updateUserProfileByIdHandler({id:userData._id,name:obj.name, email:obj.email, password:obj.password})
-          
-           dispatch(updateUser(response.data))
+          // handle edit logic
+          const response = await updateUserProfileByIdHandler({
+            id: userData._id,
+            name: obj.name,
+            email: obj.email,
+            password: obj.password,
+          });
+
+          dispatch(updateUser(response.data));
           toast.success("User updated successfully.");
         } else {
-         
           // Handle add logic
-          
-          const response = await registerUserHandler({name:obj.name, email:obj.email, password:obj.password, role:obj.role || "merchant"})
-          socketInstance.on('addUser',dispatch( addUsers(response.data)))
-          socketInstance.emit('broadcastUserAdd',response.data)
-          // dispatch(addUsers(response.data))
+
+          const { data } = await registerUserHandler({
+            name: obj.name,
+            email: obj.email,
+            password: obj.password,
+            role: obj.role || "merchant",
+          });
+         const broadcastEmit = socketInstance.emit("broadcastUserAdd", data);
+         console.log(broadcastEmit,'broadcastEmit')
+        const adduserBroadcast=  socketInstance.on('addUser', data => {
+            console.log('New user added:', data);
+            
+            dispatch(addUsers(data))
+        });
+          console.log(adduserBroadcast,'broadcast 88888888888888888888888888888888888888888888')
           toast.success("User added successfully.");
         }
         handleClose();
       } catch (error) {
-        console.error("Error=     ====================================================================================================:", error);
+        console.error(
+          "Error=====================================================================================================:",
+          error
+        );
         toast.error("Error occurred.");
       }
       setSubmitting(false);
