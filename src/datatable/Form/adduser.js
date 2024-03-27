@@ -54,7 +54,7 @@ const BootstrapModal = ({ isOpen, handleClose, title, userData }) => {
         }
         handleClose();
       } catch (error) {
-        console.error("Error:", error);
+        console.error("Error=     ====================================================================================================:", error);
         toast.error("Error occurred.");
       }
       setSubmitting(false);

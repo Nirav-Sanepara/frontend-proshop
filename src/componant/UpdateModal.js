@@ -57,9 +57,9 @@ const UpdateModal = ({ show, handleClose, product}) => {
       if (product == null || product == undefined) {
         try {
           const { data } = await addProductHandlerService(obj)
-
-          dispatch(addProductFromList(data));
-          dispatch(addProduct(data))
+           console.log(data,'add product data')
+          dispatch(addProductFromList(data.createdProduct));
+          dispatch(addProduct(data.createdProduct))
         } catch (error) {
           console.log("error", error);
         }

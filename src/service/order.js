@@ -72,15 +72,10 @@ const getOrderByUserId = (id) => {
       );
 }
 
-const getOrderByOrderId = () => {
-
-}
-
-
 export {
     returnOrderHandler,
     createOrderHandler,
     completeOrderHandler,
     getOrderByUserId,
-    getOrderByOrderId
+    
 }

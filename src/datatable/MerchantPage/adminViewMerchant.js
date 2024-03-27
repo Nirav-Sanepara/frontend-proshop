@@ -34,25 +34,19 @@ import { useNavigate } from "react-router-dom";
 
 import UpdateModal from "../../componant/allProductScreenCompo/AddEditModal";
 import { getProfileOfUserByParameterId } from "../../service/user";
+import axios from "axios";
 
 // import { setParams } from "src/utils/setParams";
 
 export default function AdminViewMerchant() {
   const csvLinkRef = React.useRef(null);
   const [value, setValue] = useState(0);
-  const [isDeleteConfirmed, setIsDeleteConfirmed] = useState(false);
-  const [deleteData, setDeleteData] = useState(null);
   const [page, setPage] = useState(0);
-  const [selectedProduct, setSelectedProduct] = useState(null);
   const navigate = useNavigate();
   const location = useLocation();
-
   const [searchParams, setSearchParams] = useSearchParams();
   const formateParams = Object.fromEntries(searchParams);
-  const [addbtn, setAddBtn] = useState(false);
-  const [showModal, setShowModal] = useState(false);
-  const handleShow = () => setShowModal(true);
-  const handleClose = () => setShowModal(false);
+ 
   const [productsData, setProductsData] = useState([]);
   const [name, setName] = useState("");
   
@@ -66,40 +60,34 @@ export default function AdminViewMerchant() {
 
   const userDetailsData = async() =>{
         const user = await getProfileOfUserByParameterId(merchant_id[1])
-       
-        setName(user?.data?.name)
-        console.log(user, 'user data from admin view merchant page')
+        console.log(user,'admin view merchant page')
+        setName(user.data.name)
+        // console.log(user, 'user data from admin view merchant page')
   }
 
   const getData = async () => {
-    const { data } = await getProfileOfUserByParameterId(merchant_id[1])
-       setProductsData(data);
-  };
-
-  const [sentBtn, setSendBtn] = useState(false);
-  const [showModalEdit, setShowModalEdit] = useState(false);
-
-  const handleDelete = async (id) => {
-    try {
-    } catch (error) {
-    } finally {
-      setIsDeleteConfirmed(false);
+    // const { data } = await getProfileOfUserByParameterId(merchant_id[1])
+    const token = localStorage.getItem("token");
+    try{
+      const {data} = await axios.get(`${process.env.REACT_APP_API_BASE_PATH}/api/products/all/products/${merchant_id[1]}`,{
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`, 
+        }
+      })
+      console.log(data,'adminView page data')
+      setProductsData(data)
+    }
+   
+    catch(err){
+      console.log('error from adminview merchant page', err)
     }
   };
 
   useEffect(() => {
     getData();
-  }, [showModal, showModalEdit, sentBtn]);
-
-  useEffect(() => {
     userDetailsData();
   }, []);
-
-  React.useEffect(() => {
-    if (isDeleteConfirmed) {
-      handleDelete(deleteData);
-    }
-  }, [isDeleteConfirmed]);
 
   React.useEffect(() => {
     if (ofcId) {
@@ -215,76 +203,21 @@ export default function AdminViewMerchant() {
     <Box>
       
         <>
+
           <Box>
             <h2> {name}'s product details </h2>
           </Box>
-          <Box
-            sx={{
-              display: "flex",
-              justifyContent: "flex-end",
-              marginBottom: "24px",
-            }}
-          >
-            <Button
-              onClick={() => {
-                handleShow();
-                setAddBtn(true);
-                setSelectedProduct({});
-              }}
-              variant="contained"
-              component={Link}
-              to="#"
-              className="m-2 border border-light float-right"
-              sx={{
-                backgroundColor: "#343A40",
-                borderRadius: "0px",
-                border: "none",
-              }}
-              startIcon={<Iconify icon="eva:plus-fill" />}
-            >
-              Add Product
-            </Button>
-            <UpdateModal
-              addBtn={addbtn}
-              show={showModal}
-              handleClose={handleClose}
-            />
-          </Box>
-
+          
           <MUIDataTable
             title={"Organizations"}
             data={productsData}
             columns={columns}
             options={options}
           />
+
         </>
        
     </Box>
   );
 }
 
-function TabPanel(props) {
-  const { children, value, index, ...other } = props;
-
-  return (
-    <div
-      role="tabpanel"
-      hidden={value !== index}
-      id={`simple-tabpanel-${index}`}
-      aria-labelledby={`simple-tab-${index}`}
-      {...other}
-    >
-      {value === index && (
-        <Box className="userDataList" sx={{ p: 3 }}>
-          {children}
-        </Box>
-      )}
-    </div>
-  );
-}
-
-TabPanel.propTypes = {
-  children: PropTypes.node,
-  index: PropTypes.number.isRequired,
-  value: PropTypes.number.isRequired,
-};

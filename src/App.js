@@ -13,6 +13,7 @@ import PrivateContainer from "./Routers/private";
 import PublicContainer from "./Routers/public";
 
 import "./i18n";
+import AdminViewMerchant from "./datatable/MerchantPage/adminViewMerchant";
 
 function App() {
   return (
@@ -44,7 +45,7 @@ function App() {
               ))}          
                </Routes> 
          
-    {/* <MapComponent/> */}
+    {/* <AdminViewMerchant/> */}
         </Container>
            </main>
         <Footer />

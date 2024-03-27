@@ -1,5 +1,5 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import axios from "axios";
+
 import { allUserDataGetApiHandler } from "../service/user";
 
 const initialState = {
@@ -22,7 +22,7 @@ export const allUsersData = createAsyncThunk(
     }
   }
 );
-console.log(initialState,'slice initial state')
+
 const allusersDataSlice = createSlice({
   name: "usersData",
   initialState,
@@ -38,7 +38,7 @@ const allusersDataSlice = createSlice({
       )
     },
     deActiveUser(state,action) {
-      // console.log(state,'state','\n','actions',action)
+     
       var actionData = action.payload;
       actionData.isActive=false;
 

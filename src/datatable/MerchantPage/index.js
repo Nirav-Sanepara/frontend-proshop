@@ -177,7 +177,7 @@ export default function MerchantPageProductDetails({ props }) {
         filter: true,
         sort: true,
         // view?.state,
-        customBodyRender: (value) => (value.toString()),
+        customBodyRender: (value) => (`${value}`),
       },
     },
     {
@@ -187,7 +187,7 @@ export default function MerchantPageProductDetails({ props }) {
       options: {
         filter: true,
         sort: true,
-        // view?.state,
+       
         customBodyRender: (value) => (
           <span style={{ color: value > 5 ? 'inherit' : 'red' }}>
             {value > 5 ? '-' :value<5 && value>0? `left product ${value}`:"Stock Empty"}
