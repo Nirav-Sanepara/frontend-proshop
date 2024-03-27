@@ -31,9 +31,11 @@ function BootstrapModal({ isOpen, handleClose, title }) {
      console.log(data,'register add user')
     if(data){
       
-      socketInstance.emit('broadcastUserAdd',data
-
-      )
+      socketInstance.emit('broadcastUserAdd',data)
+      socketInstance.on('addUser',data => {
+        console.log('new user added',data)
+        // return data
+      } )
       setIsSubmited(true)
       setAddgetusersdata(data)
     }

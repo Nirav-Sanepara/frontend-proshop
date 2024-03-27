@@ -31,5 +31,5 @@ socket.on('connect',()=>{
   toast.success("Connected to server")
 })
 
-export const socketInstance = socket;;
+export const socketInstance = socket;
 
