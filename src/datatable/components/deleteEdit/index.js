@@ -8,10 +8,15 @@ import { deleteProducthHandler } from "../../../service/product";
 import { removeProduct } from "../../../Slices/merchantSlice";
 import { deActiveUser } from "../../../Slices/adminSlice";
 import { userDeactiveHandler } from "../../../service/user";
+import BootstrapModal from "../../Form/adduser";
+
+
 export default function DeleteEditeTableTooltip({ productDetails, tableMeta, compoData }) {
+
  const dispatch = useDispatch()
   const [showModalEdit, setShowEditForm] = useState(false);
   const [productDetailsdata,setProductDetails] =useState({})
+
   const handleEditClick = (id) => {
     
     for(let i=0; i<productDetails?.length; i++){
@@ -61,11 +66,15 @@ export default function DeleteEditeTableTooltip({ productDetails, tableMeta, com
         </IconButton>
 
         <div>
-          <UpdateModal
+          {compoData=='product' && showModalEdit && <UpdateModal
             show={showModalEdit}
             handleClose={handleEditClose}
             product={productDetailsdata}
-          />
+          />}
+
+          {
+            compoData == 'user' && showModalEdit && <BootstrapModal isOpen={showModalEdit} handleClose={handleEditClose} title='Edit user profile' userData={productDetailsdata}/>
+          }
         </div>
       </Tooltip>
       <Tooltip title="Delete">

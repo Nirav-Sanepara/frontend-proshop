@@ -35,7 +35,7 @@ const Product = ({ product }) => {
             quantity: 1,
         }
         const response = await addCartHandlerService(data)
-        console.log(response, 'dataaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa')
+        // console.log(response, 'dataaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa')
         dispatch(cartlist());
         dispatch(addToCart(response?.data?.product));
         toast.success("Product added to cart");

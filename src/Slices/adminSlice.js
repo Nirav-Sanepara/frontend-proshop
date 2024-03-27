@@ -28,8 +28,8 @@ const allusersDataSlice = createSlice({
   initialState,
   reducers: {
     addUsers(state, action) {
-      console.log('inside add user slice',action)
-     state.usersData = state.usersData .push(action.payload)
+      console.log('inside add user slice',action.payload)
+     state.usersData = state.usersData.push(action.payload)
     },
     updateUser(state, action) {
       const updatedUser = action.payload

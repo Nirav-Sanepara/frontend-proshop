@@ -2,6 +2,7 @@ import { useState } from "react";
 import {Box, Button} from '@mui/material'
 import Iconify from "../Iconify";
 import UpdateModal from "../../../componant/UpdateModal";
+import BootstrapModal from "../../Form/adduser";
 export default function AddnewRowTable({compo}) {
   const [show, setShow] = useState(false);
 
@@ -40,6 +41,9 @@ export default function AddnewRowTable({compo}) {
       </Button>
       { compo=='product' && show &&
         <UpdateModal show={show} handleClose={handleClose} product={null} />
+      }
+      {compo=='user' && show &&
+        <BootstrapModal isOpen={show} handleClose={handleClose} userData={null}/>
       }
     </Box>
   );

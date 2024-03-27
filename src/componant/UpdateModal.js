@@ -28,7 +28,8 @@ const validate = (values) => {
   return errors;
 };
 const UpdateModal = ({ show, handleClose, product}) => {
-  console.log(product,'product from update form')
+  
+  // console.log(product,'product from update form')
 
   const dispatch = useDispatch();
   const [imgurl, setImgurl] = useState("");

@@ -21,7 +21,10 @@
 
 // export default socket;
 
-// import toast from 'react-hot-toast';
+
+////////////////////////// main thing //////////////////////////////////////
+
+
 import toast from 'react-hot-toast';
 import { io } from 'socket.io-client';
 
@@ -36,7 +39,7 @@ export const socketInstance = socket;
 
 
 
-
+////////////////////////////////////main thing end ///////////////////////////////
 
 
 
@@ -73,4 +76,66 @@ export const socketInstance = socket;
 // });
 
 // export const socketInstance = socket;
+
+
+
+
+
+
+
+
+
+// import React, { useEffect, useState } from 'react';
+// import { io } from 'socket.io-client';
+
+// const SOCKET_SERVER_URL = `${process.env.REACT_APP_API_BASE_PATH}`;
+
+// const UseWebSocket = () => {
+//   const [socket, setSocket] = useState(null);
+
+//   useEffect(() => {
+//     const newSocket = io(SOCKET_SERVER_URL);
+
+//     newSocket.on('connect', () => {
+//       console.log('Connected to server');
+//     });
+
+//     newSocket.on('disconnect', () => {
+//       console.log('Disconnected from server');
+//     });
+
+//     setSocket(newSocket);
+
+//     return () => {
+//       newSocket.disconnect();
+//     };
+//   }, []);
+
+//   return socket;
+// };
+
+// export default UseWebSocket;
+
+
+// import { useEffect, useState } from 'react';
+// import { io } from 'socket.io-client';
+
+// const SOCKET_SERVER_URL = `${process.env.REACT_APP_API_BASE_PATH}`;
+
+// const UseWebSocket = () => {
+//   const [socket, setSocket] = useState(null);
+
+//   useEffect(() => {
+//     const newSocket = io(SOCKET_SERVER_URL);
+//     setSocket(newSocket);
+
+//     return () => {
+//       newSocket.disconnect();
+//     };
+//   }, []);
+
+//   return socket;
+// };
+
+// export default UseWebSocket;
 

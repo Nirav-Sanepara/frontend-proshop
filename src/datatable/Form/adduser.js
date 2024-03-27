@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useEffect} from "react";
 import { Modal, Button, Form } from "react-bootstrap";
 import { useFormik } from "formik";
 import toast from "react-hot-toast";
@@ -12,9 +12,15 @@ import {
 } from "../../service/user.js";
 import { addUsers, updateUser } from "../../Slices/adminSlice.js";
 import { useDispatch } from "react-redux";
-import { socketInstance } from "../../utils/socket.js";
+import {socketInstance} from "../../utils/socket.js";
 const BootstrapModal = ({ isOpen, handleClose, title, userData }) => {
+
+  
+
   const dispatch = useDispatch();
+  const socket = socketInstance
+
+  
   const formik = useFormik({
     initialValues: {
       name: userData?.name || "",
@@ -28,7 +34,7 @@ const BootstrapModal = ({ isOpen, handleClose, title, userData }) => {
     //   return errors;
     // },
 
-    onSubmit: async (values, { setSubmitting }) => {
+    onSubmit: async (values) => {
       // console.log("in submit func");
       const obj = {
         name: values.name,
@@ -36,10 +42,7 @@ const BootstrapModal = ({ isOpen, handleClose, title, userData }) => {
         password: values.password,
         role: values.role,
       };
-      console.log(
-        obj,
-        "obj./././..............................////////////////////"
-      );
+      
       try {
         if (userData !== null) {
           // handle edit logic
@@ -61,15 +64,17 @@ const BootstrapModal = ({ isOpen, handleClose, title, userData }) => {
             password: obj.password,
             role: obj.role || "merchant",
           });
-         socketInstance.emit("broadcastUserAdd", data);
+         socket.emit("broadcastUserAdd", data);
         //  console.log(broadcastEmit,'broadcastEmit')
-       
-          const handleAddUser = (data) => {
-            console.log('New user added:', data);
-            dispatch(addUsers(data))
-          };
 
-          socketInstance.on('addUser', handleAddUser)
+        const addUsersocket = socket.on('addUser', (userData) => {
+          console.log('new user', userData)
+          dispatch(addUsers(userData))
+        });
+  
+        console.log(addUsersocket,';k;lllllllllllllllllllllllllllllllllllllllllllll')
+       
+         
           toast.success("User added successfully.");
         }
         handleClose();
@@ -80,9 +85,30 @@ const BootstrapModal = ({ isOpen, handleClose, title, userData }) => {
         );
         toast.error("Error occurred.");
       }
-      setSubmitting(false);
     },
   });
+
+  // useEffect(() => {
+    
+  //   if (socket.connected) {
+
+  //     console.log(socket,'inside useEffect hookkkkkkkkkkkkkkkkkkkkkkkkkkkkkkk')
+
+  //     const addUsersocket = socket.on('addUser', (userData) => {
+  //       console.log('new user', userData)
+  //       dispatch(addUsers(userData))
+  //     });
+
+  //     console.log(addUsersocket,';k;lllllllllllllllllllllllllllllllllllllllllllll')
+
+  //   }
+
+  //   return () => {
+  //     if (socket) {
+  //       socket.off('addUser');
+  //     }
+  //   };
+  // }, [socket, dispatch])
 
   return (
     <Modal show={isOpen} onHide={handleClose}>
