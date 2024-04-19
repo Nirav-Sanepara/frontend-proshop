@@ -8,9 +8,7 @@ import { cartlist, removeFromCart } from "../Slices/cartSlice";
 import toast from "react-hot-toast";
 import { removeProductFromCartHandler } from "../service/product";
 import { completeOrderHandler, createOrderHandler } from "../service/order";
-
 const PlaceOrderScreen = ({ history }) => {
-  
   const dispatch = useDispatch();
   const userInfo = useSelector((state) => state.user.userDetails.userInfo);
   const shippingAddress = JSON.parse(localStorage.getItem("shippingAddress"));
@@ -21,51 +19,42 @@ const PlaceOrderScreen = ({ history }) => {
   const { error, loading, orders } = orderDetails;
   const [orderID, setOrderID] = useState("");
   const navigate = useNavigate();
-
   useEffect(() => {
     // dispatch(existedCartItem());
     dispatch(cartlist());
   }, [dispatch]);
-
   const addDecimal = (num) => {
     return (Math.round(num * 100) / 100).toFixed(2);
   };
-
   const itemsPrice = addDecimal(
     cartItems.reduce(
       (acc, item) => acc + item?.product?.price * item?.quantity,
       0
     )
   );
-
   const shippingPrice = addDecimal(itemsPrice > 100 ? 100 : 0);
-
   const taxPrice = addDecimal(Number((0.15 * itemsPrice).toFixed(2)));
-
   const totalPrice =
     Number(itemsPrice) + Number(shippingPrice) + Number(taxPrice);
-
   const deleteFromCart = async (productId) => {
     console.log(productId, " the quantity to deduct ; ");
-
     try {
       const token = localStorage.getItem("token");
       const response = await removeProductFromCartHandler( { userId: userInfo._id, productId })
-      
       dispatch(removeFromCart({ productId: productId }));
       console.log(cartItems.quantity, " the quantity to deduct ; ");
     } catch (error) {
       console.log("Error coming from place order screen :", error);
     }
   };
-
   const dataa = [];
-  
-
+  const productData = cartItems.filter((ele) => {
+    dataa.push({ ...ele.product, quantity: ele.quantity });
+    return ele.product;
+  });
   const placeOrderHandler = async () => {
     try {
       const token = localStorage.getItem("token");
-
       const order = await completeOrderHandler({
         cartItems: dataa,
         shippingAddress,
@@ -75,36 +64,27 @@ const PlaceOrderScreen = ({ history }) => {
         shippingPrice,
         totalPrice,
       })
-      
-      
       cartItems.forEach(async (item) => {
         deleteFromCart(item?.product?._id);
       });
-
       toast(" Products ordered successfully ");
-
-      if (orderID) {
-        navigate(`/order/${order?.data?._id}`);
-      }
+        navigate(`/order`);
     } catch (error) {
       toast(" Error in placing ordering ");
       console.log(" error ", error);
     }
   };
-
   const createOrder = async () => {
     const token = localStorage.getItem("token");
     console.log("token", token);
     try {
       const response = await createOrderHandler(totalPrice)
-            
       console.log("response from pay", response);
       setOrderID(response.data.order_id);
     } catch (error) {
       console.error(error);
     }
   };
-
   const handlePayment = async () => {
     if (orderID) {
       const options = {
@@ -115,7 +95,6 @@ const PlaceOrderScreen = ({ history }) => {
         description: "Test Transaction",
         image: "",
         order_id: orderID,
-        
         prefill: {
           name: "",
           email: "",
@@ -132,7 +111,6 @@ const PlaceOrderScreen = ({ history }) => {
       rzp.open();
     }
   };
-
   return (
     <>
       <CheckOutSteps step1 step2 step3 step4 />
@@ -151,7 +129,6 @@ const PlaceOrderScreen = ({ history }) => {
                 )}
               </p>
             </ListGroup.Item>
-
             <ListGroup.Item>
               <h2>Payment</h2>
               <p>
@@ -159,7 +136,6 @@ const PlaceOrderScreen = ({ history }) => {
                 {paymentMethod && paymentMethod}
               </p>
             </ListGroup.Item>
-
             <ListGroup.Item>
               <h2>Order Items</h2>
               {cartItems.length === 0 ? (
@@ -268,7 +244,6 @@ const PlaceOrderScreen = ({ history }) => {
                     Proceed to Payment
                   </Button>
                 )}
-                
               </ListGroup.Item>
             </ListGroup>
           </Card>
@@ -277,5 +252,4 @@ const PlaceOrderScreen = ({ history }) => {
     </>
   );
 };
-
 export default PlaceOrderScreen;
